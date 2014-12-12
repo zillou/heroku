@@ -264,6 +264,12 @@ protected
     if options[:ssh_git]
       "git@#{Heroku::Auth.git_host}:#{app_name}.git"
     else
+      if defined?(Heroku::Auth.extract_account)
+        warn "WARNING: https://github.com/ddollar/heroku-accounts plugin is installed."
+        warn "This plugin is incompatible with HTTP Git."
+        warn "Install the official heroku-accounts plugin."
+        warn "$ heroku plugins:install https://github.com/heroku/heroku-accounts"
+      end
       error_if_netrc_does_not_have_https_git
       "https://#{Heroku::Auth.http_git_host}/#{app_name}.git"
     end
